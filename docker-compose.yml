@@ -1,0 +1,36 @@
+version: "3.8"
+
+volumes:
+    php_sockert:
+
+services:
+  web:
+    build:
+      context: src
+      dockerfile: web.Dockerfile
+    container_name: web
+    volumes:
+      - php_sockert:/var/run/php-fpm
+    ports:
+    - "8080:80"
+    depends_on:
+      - app
+
+  app:
+    build:
+      context: src
+      dockerfile: app.Dockerfile
+    container_name: app
+    volumes:
+      - ./src:/var/www
+      - php_sockert:/var/run/php-fpm
+    depends_on:
+      - db
+
+  db:
+    build:
+      context: src
+      dockerfile: db.Dockerfile
+    container_name: db
+    ports:
+      - "3306:3306"
