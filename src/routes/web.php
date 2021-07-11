@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CacheController;
+use App\Http\Controllers\LogController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -19,3 +20,5 @@ Route::get('/', function () {
 });
 
 Route::get('/cache', [CacheController::class, 'index']);
+
+Route::get('/log', [LogController::class, 'index']);
