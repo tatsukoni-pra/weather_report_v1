@@ -22,7 +22,7 @@ services:
       dockerfile: app.Dockerfile
     container_name: app
     volumes:
-      - ./src:/var/www
+      - ./src:/var/www/html
       - php_sockert:/var/run/php-fpm
     depends_on:
       - db

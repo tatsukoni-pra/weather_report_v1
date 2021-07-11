@@ -21,7 +21,7 @@ RUN set -eux && \
 # copy setting & sources file
 COPY docker/app/php.ini /usr/local/etc/php/php.ini
 COPY docker/app/zzz-docker.conf /usr/local/etc/php-fpm.d/zzz-docker.conf
-COPY ./ /var/www
+# COPY ./ /var/www ←local用であれば、docker-compose でマウントしているので不要
 
 # unix socket
 RUN mkdir /var/run/php-fpm
