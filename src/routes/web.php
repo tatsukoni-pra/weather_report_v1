@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\CacheController;
 use App\Http\Controllers\LogController;
+use App\Http\Controllers\RainController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -22,3 +23,5 @@ Route::get('/', function () {
 Route::get('/cache', [CacheController::class, 'index']);
 
 Route::get('/log', [LogController::class, 'index']);
+
+Route::get('/rain', [RainController::class, 'index']);
