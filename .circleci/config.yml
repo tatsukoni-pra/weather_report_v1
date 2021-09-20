@@ -32,4 +32,4 @@ jobs:
           name: Run PHPUnit circle_testing
           command: |
             cd src &&
-            php ./vender/bin/phpunit
+            php ./vendor/bin/phpunit
