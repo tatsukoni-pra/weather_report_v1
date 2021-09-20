@@ -2,6 +2,10 @@ version: 2
 jobs:
   build:
     docker:
-      - image: circleci/php:7.1-node-browsers
+      - image: cimg/php:8.0.10
+        environment:
+          DB_CONNECTION: circle_testing
+      - image: circleci/mysql:8.0.26-ram
     steps:
-      - run: echo "Hello world"
+      - run: checkout
+      - run: php --version
