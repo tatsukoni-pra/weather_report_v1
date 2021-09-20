@@ -6,11 +6,26 @@ jobs:
         environment:
           DB_CONNECTION: circle_testing
       - image: circleci/mysql:8.0.26-ram
+    working_directory: ~/src/
     steps:
       - checkout
       - run:
-          name: confirm version
-          command: php --version
+          name: Update apt-get
+          command: sudo apt-get update
       - run:
-          name: output helllo
-          command: echo "hello!"
+          name: Docker php extensions install
+          command: sudo docker-php-ext-install pdo_mysql
+      - restore_cache:
+          keys:
+            - v1-dependencies-{{ checksum "composer.json" }}
+            - v1-dependencies-
+      - run:
+          name: Install PHP libraries
+          command: composer install -n --prefer-dist
+      - save_cache:
+          paths:
+            - ./vender
+          key: v1-dependencies-{{ checksum "composer.json" }}
+      - run:
+          name: Run PHPUnit circle_testing
+          command: php ./vender/bin/phpunit
