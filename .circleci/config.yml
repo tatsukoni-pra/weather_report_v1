@@ -26,6 +26,12 @@ jobs:
             - ./vender
           key: v1-dependencies-{{ checksum "src/composer.json" }}
       - run:
+          name: CI Output Test
+          command: |
+            echo "CI is $CI"
+            echo "CIRCLE_BRANCH is $CIRCLE_BRANCH"
+            echo "CIRCLE_PROJECT_REPONAME is $CIRCLE_PROJECT_REPONAME"
+      - run:
           name: Run PHPUnit circle_testing
           command: |
             cd src &&
