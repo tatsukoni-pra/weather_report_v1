@@ -6,7 +6,7 @@ jobs:
         environment:
           DB_CONNECTION: circle_testing
       - image: circleci/mysql:8.0.26-ram
-    working_directory: ~/src/
+    working_directory: ~/
     steps:
       - checkout
       - run:
@@ -17,7 +17,7 @@ jobs:
       #     command: docker-php-ext-install pdo_mysql
       - restore_cache:
           keys:
-            - v1-dependencies-{{ checksum "composer.json" }}
+            - v1-dependencies-{{ checksum "src/composer.json" }}
             - v1-dependencies-
       - run:
           name: Install PHP libraries
@@ -25,7 +25,9 @@ jobs:
       - save_cache:
           paths:
             - ./vender
-          key: v1-dependencies-{{ checksum "composer.json" }}
+          key: v1-dependencies-{{ checksum "src/composer.json" }}
       - run:
           name: Run PHPUnit circle_testing
-          command: php ./vender/bin/phpunit
+          command: |
+            cd src &&
+            php vender/bin/phpunit
