@@ -6,7 +6,7 @@ jobs:
         environment:
           DB_CONNECTION: circle_testing
       - image: circleci/mysql:8.0.26-ram
-    working_directory: ~/repo
+    working_directory: ~/src
     steps:
       - checkout
       - run:
