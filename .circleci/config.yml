@@ -7,5 +7,10 @@ jobs:
           DB_CONNECTION: circle_testing
       - image: circleci/mysql:8.0.26-ram
     steps:
-      - run: checkout
-      - run: php --version
+      - checkout
+      - run:
+          name: confirm version
+          command: php --version
+      - run:
+          name: output helllo
+          command: echo "hello!"
