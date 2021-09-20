@@ -17,5 +17,6 @@ class RainControllerTest extends TestCase
     public function testIndev()
     {
         $this->assertTrue(true);
+        $this->assertTrue(false);
     }
 }

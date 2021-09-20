@@ -12,9 +12,6 @@ jobs:
       - run:
           name: Update apt-get
           command: sudo apt-get update
-      # - run:
-      #     name: Docker php extensions install
-      #     command: docker-php-ext-install pdo_mysql
       - restore_cache:
           keys:
             - v1-dependencies-{{ checksum "src/composer.json" }}
