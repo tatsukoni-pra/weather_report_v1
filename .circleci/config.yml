@@ -9,6 +9,25 @@ executors:
       - image: circleci/mysql:8.0.26-ram
     working_directory: ~/work
 
+commands:
+  composer_install:
+    steps:
+      - restore_cache:
+          keys:
+            - v1-composer-deps-{{ checksum "src/composer.json" }}-{{ .Branch }}
+            - v1-composer-deps-{{ checksum "src/composer.json" }}
+            - v1-composer-deps
+      - run:
+          name: Install PHP libraries
+          command: |
+            cd src &&
+            composer install -n --prefer-dist &&
+            composer dump-autoload
+      - save_cache:
+          key: v1-composer-deps-{{ checksum "src/composer.json" }}-{{ .Branch }}
+          paths:
+            - src/vendor
+
 jobs:
   setup:
     executor: demo-executor
@@ -17,11 +36,7 @@ jobs:
       - run:
           name: Update apt-get
           command: sudo apt-get update
-      - run:
-          name: Install PHP libraries
-          command: |
-            cd src &&
-            composer install -n --prefer-dist
+      - composer_install
       - persist_to_workspace:
           root: .
           paths:
@@ -37,7 +52,9 @@ jobs:
           name: Run PHPUnit circle_testing
           command: |
             cd src &&
-            php ./vendor/bin/phpunit
+            phpdbg -qrr vendor/bin/phpunit --log-junit phpunit/junit.xml
+      - store_test_results:
+          path: src/phpunit
 
 workflows:
   version: 2
