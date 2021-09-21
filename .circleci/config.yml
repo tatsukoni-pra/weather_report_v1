@@ -32,7 +32,7 @@ jobs:
     steps:
       - checkout
       - attach_workspace:
-          at: ./src/
+          at: ./
       - run:
           name: Run PHPUnit circle_testing
           command: |
