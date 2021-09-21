@@ -31,7 +31,7 @@ jobs:
             echo "CI is $CI"
             echo "CIRCLE_BRANCH is $CIRCLE_BRANCH"
             echo "CIRCLE_PROJECT_REPONAME is $CIRCLE_PROJECT_REPONAME"
-            echo "ENV is $DB_CONNECTION"
+            echo "ENV is $TEST_VALUE"
       - run:
           name: Run PHPUnit circle_testing
           command: |
