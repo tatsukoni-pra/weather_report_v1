@@ -7,7 +7,7 @@ executors:
         environment:
           DB_CONNECTION: circle_testing
       - image: circleci/mysql:8.0.26-ram
-    working_directory: ~/src
+    working_directory: ~/work
 
 jobs:
   setup:
@@ -17,19 +17,11 @@ jobs:
       - run:
           name: Update apt-get
           command: sudo apt-get update
-      - restore_cache:
-          keys:
-            - v1-dependencies-{{ checksum "src/composer.json" }}
-            - v1-dependencies-
       - run:
           name: Install PHP libraries
           command: |
             cd src &&
             composer install -n --prefer-dist
-      - save_cache:
-          paths:
-            - ./src/vender
-          key: v1-dependencies-{{ checksum "src/composer.json" }}
       - persist_to_workspace:
           root: .
           paths:
