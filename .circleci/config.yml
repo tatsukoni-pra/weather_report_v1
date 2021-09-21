@@ -52,7 +52,9 @@ jobs:
           name: Run PHPUnit circle_testing
           command: |
             cd src &&
-            php ./vendor/bin/phpunit
+            phpdbg -qrr vendor/bin/phpunit --log-junit phpunit/junit.xml
+      - store_test_results:
+          path: phpunit
 
 workflows:
   version: 2
