@@ -17,11 +17,21 @@ jobs:
       - run:
           name: Update apt-get
           command: sudo apt-get update
+      - restore_cache:
+          keys:
+            - v1-composer-deps-{{ checksum "composer.json" }}-{{ .Branch }}
+            - v1-composer-deps-{{ checksum "composer.json" }}
+            - v1-composer-deps
       - run:
           name: Install PHP libraries
           command: |
             cd src &&
-            composer install -n --prefer-dist
+            composer install -n --prefer-dist &&
+            composer dump-autoload
+      - save_cache:
+          key: v1-composer-deps-{{ checksum "composer.json" }}-{{ .Branch }}
+          paths:
+            - src/vendor
       - persist_to_workspace:
           root: .
           paths:
