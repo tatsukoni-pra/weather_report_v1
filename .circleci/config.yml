@@ -25,14 +25,14 @@ jobs:
       - persist_to_workspace:
           root: .
           paths:
-            - "src/vendor"
+            - src/vendor
 
   exec_test:
     executor: demo-executor
     steps:
       - checkout
       - attach_workspace:
-          at: ./
+          at: .
       - run:
           name: Run PHPUnit circle_testing
           command: |
