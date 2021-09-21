@@ -31,6 +31,15 @@ commands:
           paths:
             - src/vendor
 
+  slack_notify:
+    steps:
+      - slack/notify:
+          event: pass
+          template: basic_success_1
+      - slack/notify:
+          event: fail
+          template: basic_fail_1
+
 jobs:
   setup:
     executor: demo-executor
@@ -58,12 +67,7 @@ jobs:
             phpdbg -qrr vendor/bin/phpunit --log-junit phpunit/junit.xml
       - store_test_results:
           path: src/phpunit
-      - slack/notify:
-          event: pass
-          template: basic_success_1
-      - slack/notify:
-          event: fail
-          template: basic_fail_1
+      - slack_notify
 
 workflows:
   version: 2
