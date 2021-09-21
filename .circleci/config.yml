@@ -9,14 +9,9 @@ executors:
       - image: circleci/mysql:8.0.26-ram
     working_directory: ~/work
 
-jobs:
-  setup:
-    executor: demo-executor
+commands:
+  composer_install:
     steps:
-      - checkout
-      - run:
-          name: Update apt-get
-          command: sudo apt-get update
       - restore_cache:
           keys:
             - v1-composer-deps-{{ checksum "src/composer.json" }}-{{ .Branch }}
@@ -32,6 +27,16 @@ jobs:
           key: v1-composer-deps-{{ checksum "src/composer.json" }}-{{ .Branch }}
           paths:
             - src/vendor
+
+jobs:
+  setup:
+    executor: demo-executor
+    steps:
+      - checkout
+      - run:
+          name: Update apt-get
+          command: sudo apt-get update
+      - composer_install
       - persist_to_workspace:
           root: .
           paths:
