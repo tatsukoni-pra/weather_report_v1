@@ -54,7 +54,7 @@ jobs:
             cd src &&
             phpdbg -qrr vendor/bin/phpunit --log-junit phpunit/junit.xml
       - store_test_results:
-          path: phpunit
+          path: src/phpunit
 
 workflows:
   version: 2
