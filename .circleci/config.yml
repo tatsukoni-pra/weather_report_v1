@@ -1,14 +1,16 @@
 version: 2.1
-orbs:
-  slack: circleci/slack@4.4.4
-jobs:
-  build:
+executors:
+  demo-executor:
     docker:
       - image: cimg/php:8.0.10
         environment:
           DB_CONNECTION: circle_testing
       - image: circleci/mysql:8.0.26-ram
     working_directory: ~/src
+
+jobs:
+  build:
+    executor: demo-executor
     steps:
       - checkout
       - run:
@@ -32,9 +34,3 @@ jobs:
           command: |
             cd src &&
             php ./vendor/bin/phpunit
-      - slack/notify:
-          message: テスト成功
-          when: on_success
-      - slack/notify:
-          message: テスト失敗
-          when: on_fail
