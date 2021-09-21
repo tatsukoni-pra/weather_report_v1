@@ -71,5 +71,6 @@ workflows:
     jobs:
       - setup
       - exec_test:
+          context: SLACK_INTEGRATION
           requires:
             - setup
