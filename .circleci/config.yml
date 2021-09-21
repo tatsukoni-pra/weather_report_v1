@@ -1,5 +1,8 @@
 version: 2.1
 
+orbs:
+  slack: circleci/slack@4.4.4
+
 executors:
   demo-executor:
     docker:
@@ -55,6 +58,7 @@ jobs:
             phpdbg -qrr vendor/bin/phpunit --log-junit phpunit/junit.xml
       - store_test_results:
           path: src/phpunit
+      - slack/status
 
 workflows:
   version: 2
