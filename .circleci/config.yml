@@ -1,3 +1,5 @@
+version: 2.1
+
 executors:
   demo-executor:
     docker:
@@ -7,9 +9,8 @@ executors:
       - image: circleci/mysql:8.0.26-ram
     working_directory: ~/src
 
-version: 2.1
 jobs:
-  build:
+  setup:
     executor: demo-executor
     steps:
       - checkout
@@ -27,10 +28,30 @@ jobs:
             composer install -n --prefer-dist
       - save_cache:
           paths:
-            - ./vender
+            - ./src/vender
           key: v1-dependencies-{{ checksum "src/composer.json" }}
+      - persist_to_workspace:
+          root: ~/src
+          paths:
+            - "src/vender"
+
+  exec_test:
+    executor: demo-executor
+    steps:
+      - checkout
+      - attach_workspace:
+          at: ./src/
       - run:
           name: Run PHPUnit circle_testing
           command: |
             cd src &&
             php ./vendor/bin/phpunit
+
+workflows:
+  version: 2
+  build_test:
+    jobs:
+      - setup
+      - exec_test:
+          requires:
+            - setup
