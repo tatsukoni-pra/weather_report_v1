@@ -1,32 +1,49 @@
-version: 2
-jobs:
-  build:
+version: 2.1
+
+executors:
+  demo-executor:
     docker:
       - image: cimg/php:8.0.10
         environment:
           DB_CONNECTION: circle_testing
       - image: circleci/mysql:8.0.26-ram
-    working_directory: ~/src
+    working_directory: ~/work
+
+jobs:
+  setup:
+    executor: demo-executor
     steps:
       - checkout
       - run:
           name: Update apt-get
           command: sudo apt-get update
-      - restore_cache:
-          keys:
-            - v1-dependencies-{{ checksum "src/composer.json" }}
-            - v1-dependencies-
       - run:
           name: Install PHP libraries
           command: |
             cd src &&
             composer install -n --prefer-dist
-      - save_cache:
+      - persist_to_workspace:
+          root: .
           paths:
-            - ./vender
-          key: v1-dependencies-{{ checksum "src/composer.json" }}
+            - src/vendor
+
+  exec_test:
+    executor: demo-executor
+    steps:
+      - checkout
+      - attach_workspace:
+          at: .
       - run:
           name: Run PHPUnit circle_testing
           command: |
             cd src &&
             php ./vendor/bin/phpunit
+
+workflows:
+  version: 2
+  build_test:
+    jobs:
+      - setup
+      - exec_test:
+          requires:
+            - setup
