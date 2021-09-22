@@ -20,7 +20,7 @@ class RainService
     public function getRainData(string $coordinates): array
     {
         return $this->generateDisplayData(
-            json_decode($this->httpClient->get($this->generateRainUri($coordinates)), true)
+            $this->httpClient->get($this->generateRainUri($coordinates))
         );
     }
 

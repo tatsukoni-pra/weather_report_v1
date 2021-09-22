@@ -20,7 +20,7 @@ class RainController extends Controller
         try {
             return view('rain')->with('data', $this->rainService->getRainData('139.732293,35.663613'));
         } catch (Exception $e) {
-            Log::error($e);
+            Log::error($e->getMessage());
             return view('error');
         }
     }

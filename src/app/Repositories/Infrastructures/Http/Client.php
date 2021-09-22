@@ -11,16 +11,17 @@ class Client
      * @param int $timeout = 10
      * @param int $retry = 5
      * @param int $retryWaitTime = 100
-     * @return mixed
+     * @return array
      */
     public function get(
         string $uri,
         int $timeout = 10,
         int $retry = 10,
         int $retryWaitTime = 500
-    ) {
-        return Http::timeout($timeout)
+    ): array {
+        $responce = Http::timeout($timeout)
             ->retry($retry, $retryWaitTime)
             ->get($uri);
+        return json_decode($responce, true);
     }
 }
