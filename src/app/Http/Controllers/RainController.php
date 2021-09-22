@@ -10,6 +10,9 @@ class RainController extends Controller
 {
     private RainService $rainService;
 
+    /**
+     * @param RainService $rainService
+     */
     public function __construct(RainService $rainService)
     {
         $this->rainService = $rainService;
@@ -18,10 +21,11 @@ class RainController extends Controller
     public function index()
     {
         try {
-            return view('rain')->with('data', $this->rainService->getRainData('139.732293,35.663613'));
+            return view('rain')
+                ->with('data', $this->rainService->getRainData('139.732293,35.663613'));
         } catch (Exception $e) {
             Log::error($e->getMessage());
-            return view('error');
+            abort(500);
         }
     }
 }

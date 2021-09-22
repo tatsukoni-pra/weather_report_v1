@@ -8,9 +8,9 @@ class RainService
 {
     private Client $httpClient; 
 
-    public function __construct(Client $client)
+    public function __construct()
     {
-        $this->httpClient = $client;
+        $this->httpClient = resolve(Client::class);
     }
 
     /**
@@ -54,8 +54,9 @@ class RainService
          * ...
          */
         $min = 0;
+        $weatherList = $rainData['Feature'][0]['Property']['WeatherList']['Weather'] ?? [];
         $weatherListData = [];
-        foreach ($rainData['Feature'][0]['Property']['WeatherList']['Weather'] as $row) {
+        foreach ($weatherList as $row) {
             $weatherListData[] = [
                 'min' => $min,
                 'rain_fall' => $row['Rainfall']
@@ -64,7 +65,7 @@ class RainService
         }
 
         return [
-            'title' => $rainData['Feature'][0]['Name'],
+            'title' => $rainData['Feature'][0]['Name'] ?? '',
             'weather_list_data' => $weatherListData
         ];
     }
