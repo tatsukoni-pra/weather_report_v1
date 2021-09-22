@@ -9,6 +9,7 @@ executors:
       - image: cimg/php:8.0.10
         environment:
           DB_CONNECTION: circle_testing
+          DB_HOST: 127.0.0.1
       - image: circleci/mysql:8.0.26-ram
     working_directory: ~/work
 
