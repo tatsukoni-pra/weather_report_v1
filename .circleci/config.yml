@@ -10,6 +10,8 @@ executors:
         environment:
           DB_CONNECTION: circle_testing
       - image: circleci/mysql:8.0.26-ram
+        environment:
+          DB_CONNECTION: circle_testing
     working_directory: ~/work
 
 commands:
