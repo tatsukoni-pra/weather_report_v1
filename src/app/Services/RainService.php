@@ -46,6 +46,9 @@ class RainService
         return $this->generateDisplayData($rainData);
     }
 
+    /**
+     * @return string
+     */
     private function getCacheLimitDate(): string
     {
         return Carbon::now()->subMinutes(10)->format('Y-m-d H:i:s');
