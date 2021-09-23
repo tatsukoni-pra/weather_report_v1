@@ -63,7 +63,9 @@ jobs:
           at: .
       - run:
           name: Wait For Database Container Up
-          command: dockerize --wait
+          command: |
+            dockerize -wait \
+            tcp://127.0.0.1:3306 -timeout 120s
       - run:
           name: Run PHPUnit circle_testing
           command: |
