@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Repositories\Datastructures\WeatherReportLogRepository;
 use App\Repositories\Infrastructures\Http\Client;
+use Exception;
 use Illuminate\Support\Carbon;
 
 class RainService
@@ -12,15 +13,16 @@ class RainService
 
     private WeatherReportLogRepository $weatherReportLogRepository;
 
-    public function __construct(WeatherReportLogRepository $weatherReportLogRepository)
+    public function __construct()
     {
         $this->httpClient = resolve(Client::class);
-        $this->weatherReportLogRepository = $weatherReportLogRepository;
+        $this->weatherReportLogRepository = resolve(WeatherReportLogRepository::class);
     }
 
     /**
      * @param string $coordinates
      * preturn array
+     * @throws Exception
      */
     public function getRainData(string $coordinates): array
     {
