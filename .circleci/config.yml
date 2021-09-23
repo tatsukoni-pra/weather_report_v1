@@ -10,6 +10,7 @@ executors:
         environment:
           DB_CONNECTION: circle_testing
       - image: circleci/mysql:8.0.26-ram
+        command: mysqld --default-authentication-plugin=mysql_native_password
     working_directory: ~/work
 
 commands:
@@ -60,6 +61,11 @@ jobs:
       - checkout
       - attach_workspace:
           at: .
+      - run:
+          name: Wait For Database Container Up
+          command: |
+            dockerize -wait \
+            tcp://127.0.0.1:3306 -timeout 120s
       - run:
           name: Run PHPUnit circle_testing
           command: |
