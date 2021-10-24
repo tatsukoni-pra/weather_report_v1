@@ -24,7 +24,11 @@ COPY ./docker/app/zzz-docker.conf /usr/local/etc/php-fpm.d/zzz-docker.conf
 COPY . /var/www/html
 
 # setup composer & laravel
-RUN composer install
+RUN composer clear-cache && \
+    composer install && \
+    php artisan cache:clear && \
+    php artisan db:connect && \
+    php artisan migrate --force
 
 # unix socket
 RUN mkdir /var/run/php-fpm
