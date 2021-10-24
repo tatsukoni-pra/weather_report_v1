@@ -27,8 +27,7 @@ COPY . /var/www/html
 RUN composer clear-cache && \
     composer install && \
     php artisan cache:clear && \
-    php artisan db:connect && \
-    php artisan migrate --force
+    php artisan config:clear
 
 # unix socket
 RUN mkdir /var/run/php-fpm
