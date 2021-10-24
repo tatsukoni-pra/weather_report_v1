@@ -23,6 +23,9 @@ COPY ./docker/app/php.ini /usr/local/etc/php/php.ini
 COPY ./docker/app/zzz-docker.conf /usr/local/etc/php-fpm.d/zzz-docker.conf
 COPY . /var/www/html
 
+# setup composer & laravel
+RUN composer install
+
 # unix socket
 RUN mkdir /var/run/php-fpm
 VOLUME ["/var/run/php-fpm"]
