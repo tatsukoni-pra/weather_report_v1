@@ -5,4 +5,4 @@ RUN adduser -S www-data -G www-data -u 82 && \
     echo "www-data ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers && \
     echo 'www-data:www-data' | chpasswd
 
-COPY docker/web/default.conf /etc/nginx/nginx.conf
+COPY ./docker/web/default.conf /etc/nginx/nginx.conf
